@@ -21,7 +21,7 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('React');
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -36,7 +36,7 @@ const App = () => {
   return (
     <>
       <h1>My Hacker Stories</h1>
-      <Search onSearch={handleSearch}  />
+      <Search search={searchTerm} onSearch={handleSearch}  />
       <hr />
       <List list={searchedStories} />
     </>
@@ -45,42 +45,44 @@ const App = () => {
 
 
 /* Creating the List component */
-const List = (props) => (
+const List = ({list}) => (
   <ul>
-    {props.list.map((item) => (
+    {list.map((item) => (
       <Item key={item.objectID} item={item} />
     ))}
   </ul>
 );
 
-
-const Item = (props) => (
+/* Creating the Item component */
+const Item = ({item}) => (
   <li>
     <span>
-      <a href={props.item.url}>{props.item.title}</a>
+      <a href={item.url}>{item.title}</a>
     </span>
-    <span>{props.item.author}</span>
-    <span>{props.item.num_comments}</span>
-    <span>{props.item.points}</span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
   </li>
 
 );
 
 /* Creating the Search component */
-const Search = (props) => {
+const Search = ({ search, onSearch }) => (
 
+  // const handleBlur = (event) => {
+  //   console.log("Blur value " + event.target.value);
+  // }
 
-  const handleBlur = (event) => {
-    console.log("Blur value " + event.target.value);
-  }
-
-  return (
-    <>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={props.onSearch} onBlur={handleBlur} />
-    </>
-  );
-};
+  <>
+    <label htmlFor="search">Search: </label>
+    <input
+      id="search"
+      type="text"
+      onChange={onSearch}
+      value={search}
+    />
+  </>
+);
 
 
 export default App;
